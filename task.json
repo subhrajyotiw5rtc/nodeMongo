@@ -1,0 +1,31 @@
+{
+    "first": "connect db in express app with MONGO_URL=mongodb://nitank:12ab34cd@ds259175.mlab.com:59175/devdoit",
+    "second": "take collection SubStatus",
+    "third": "write a aggregate post query which matches two fields 1 - caseState 2- caseStatus and give the following count result on the basis of their createdDate",
+    "result": [
+        [
+            "0 - 6 HRS",
+            5
+        ],
+        [
+            "6 - 12 HRS",
+            4
+        ],
+        [
+            "12 - 24 HRS",
+            3
+        ],
+        [
+            "24 - 36 HRS",
+            2
+        ],
+        [
+            "36 - 48 HRS",
+            1
+        ],
+        [
+            "48 HRS More",
+            0
+        ]
+    ]
+}

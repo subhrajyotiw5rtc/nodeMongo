@@ -1,0 +1,55 @@
+<h1>Express</h1>
+<p>Welcome to Express</p>
+<div style="border:1px solid #ddd;">
+	<div style="display:inline-block; width: 32%; border-right:1px solid #ddd; padding:5px;">Collection name: <b>{{cname}}</b></div>
+	<div style="display:inline-block; width: 32%; border-right:1px solid #ddd; padding:5px;">Total Records: <b>{{record}}</b></div>
+	<div style="display:inline-block; width: 32%; border-right:1px solid #ddd; padding:5px;">Page Response Time: <b>{{time}}</b></div>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">caseId</th>
+      <th scope="col">caseState</th>
+      <th scope="col">caseStatus</th>
+      <th scope="col">createdDate</th>
+      <th scope="col">lastModifiedDate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="usr in listOfStatus " ng-if="listOfStatus.length > 0">
+      <th>{{usr._id}}</th>
+      <td>{{usr.caseId}}</td>
+      <td>{{usr.caseState}}</td>
+      <td>{{usr.caseStatus}}</td>
+      <td>{{usr.createdDate | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+      <td>{{usr.lastModifiedDate |date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+    </tr>
+    <tr ng-if="listOfStatus.length == 0">
+		<td colspan="6">
+            <center>
+              <p><b>No Record Found</b>
+              </p>
+           </center>
+        </td>
+	</tr>
+  </tbody>
+</table>
+<form name="billdata" id="billdata"  enctype="multipart/form-data" novalidate>
+	<div class="col-md-6">
+	    <div class="input-group bmargindiv1 col-md-12">
+	        <span class="input-group-addon ndrftextwidth text-right oditek-form" style="width:180px">caseState :</span>
+			<input type="text" name="state" id="state" class="form-control oditek-form" placeholder="" ng-model="state">
+	    </div>
+	</div>
+	<div class="col-md-6">
+	    <div class="input-group bmargindiv1 col-md-12">
+	        <span class="input-group-addon ndrftextwidth text-right oditek-form" style="width:180px">caseStatus:</span>
+			<input type="text" name="status" id="status" class="form-control oditek-form" placeholder="" ng-model="status">
+	    </div>
+	</div>
+	<div class="clearfix"></div>    
+	<div style="text-align:center; padding-top:10px;">
+        <input type="button" class="btn btn-success" ng-click="addStatusData();"  id="addProfileData" value="Submit"/>
+    </div>
+</form>
