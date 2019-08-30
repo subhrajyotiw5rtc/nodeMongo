@@ -25,7 +25,12 @@ dept.controller('dashboardController',function($scope,$http,$state,$window,DataS
 		console.log('data',userData);
 		DataService.connectToServerSideScript(method,url1,userData)
 		.then(function(response) {
-			console.log('response',response);
+			//console.log('response',response);
+			if (response.data.length > 0) {
+				$scope.timeSlabArr=response.data;
+			}else{
+				$scope.timeSlabArr=[];
+			}
 	    	
 		},function(error) {
 		    
