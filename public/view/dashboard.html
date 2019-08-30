@@ -53,3 +53,25 @@
         <input type="button" class="btn btn-success" ng-click="addStatusData();"  id="addProfileData" value="Submit"/>
     </div>
 </form>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Time slab</th>
+      <th scope="col">Record</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="usr in timeSlabArr " ng-if="timeSlabArr.length > 0">
+      <th>{{usr.str}}</th>
+      <td>{{usr.cnt}}</td>
+    </tr>
+    <tr ng-if="timeSlabArr.length == 0">
+    <td colspan="2">
+            <center>
+              <p><b>No Record Found</b>
+              </p>
+           </center>
+        </td>
+  </tr>
+  </tbody>
+</table>
