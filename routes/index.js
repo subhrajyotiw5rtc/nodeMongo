@@ -29,13 +29,59 @@ router.get('/subStatus', function(req, res, next) {
 router.post('/checkCount', function(req, res, next) {
 	var status=req.body.status;
 	var state=req.body.state;
-	//console.log('state',req.body);
 	db.SubStatus.aggregate([
-		{ $match : { caseState : state, caseStatus:status } },
-		{ $project: {dateDifference: { $divide: [{ $subtract: [ "$lastModifiedDate", "$createdDate" ]}, 1000*60*60] }}}
+	  { $match : { caseState : state, caseStatus:status } },
+	   { $group: {
+    _id: {
+      year: { $year: "$createdDate" },
+      dayOfYear: { $dayOfYear: "$createdDate" },
+      hour: { $hour: "$createdDate" },
+      interval: {
+        $subtract: [ 
+          { $minute: "$createdDate" },
+          { $mod: [{ $minute: "$createdDate"}, 60*6] }
+        ]
+      }
+    },
+    count: { $sum: 1 }
+    }
+  }
 	])
 	.toArray((err, docs)=>{
-		console.log('docs',docs);
+		if (err) {
+			//console.log('err',err);
+			var sentData={'data':[],'statusCode': 400,'message': 'Failed.'};
+			res.send(sentData);
+		}else{
+			var arr=[{'str':'0-6HR','cnt':0},
+			         {'str':'6-12HR','cnt':0},
+			         {'str':'12-18HR','cnt':0},
+			         {'str':'18-24HR','cnt':0},
+			         {'str':'24-30HR','cnt':0},
+			         {'str':'30-36HR','cnt':0},
+			         {'str':'36-42HR','cnt':0},
+			         {'str':'42-48HR','cnt':0},
+			         {'str':'48 or more','cnt':0}];
+			for(var i=0;i<arr.length;i++){
+				if (i < 8) {
+					if (docs[i] !=undefined) {
+						arr[i]['cnt']=docs[i]['count'];
+					}
+				}else{
+					var newCount=0;
+					for(var j=0;j<docs.length;j++){
+						if (j >=8) {
+							newCount=newCount+docs[j]['count'];
+						}
+					}
+					arr[i]['cnt']=newCount;
+				}
+
+			}
+			var sentData={'data':arr,'statusCode': 200,'message': 'success.'};
+			res.send(sentData);
+			//console.log('docs',docs[1]);
+		}
 
 	})
 });
